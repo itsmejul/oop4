@@ -21,47 +21,47 @@ public class Recursion {
         Fish currentFish = fishTypes.get(index);
         List<Fish> maxFishTypes;
 
-        
+        List<Fish> newFishTypes = new ArrayList<>(selectedFishTypes);
 
 
-        if(selectedFishTypes.contains(currentFish)){
-            return findMaxFishTypes(budget, index + 1, selectedFishTypes);
+        if(newFishTypes.contains(currentFish)){
+            return findMaxFishTypes(budget, index + 1, newFishTypes);
         }
 
         //aktueller Fisch ist zu teuer fuer Restbudget, also wird der naechste Fisch ausprobiert
         if(currentFish.getCost() > budget){
-            maxFishTypes = findMaxFishTypes(budget, index + 1, selectedFishTypes);
+            maxFishTypes = findMaxFishTypes(budget, index + 1, newFishTypes);
         } 
         //aktueller Fisch passt ins Restbudget
         else {
             //schauen, ob aktueller Fisch mit bisherigen Fischen kompatibel ist
             boolean isCompatible = true;
             for(Fish incompatibleFish : currentFish.getIncompatibleTypes()){
-                if(selectedFishTypes.contains(incompatibleFish)){
+                if(newFishTypes.contains(incompatibleFish)){
                     isCompatible = false;
                 } 
             }
             //aktueller Fisch ist nicht kompatibel, betrachte naechsten moeglichen Fisch
             if(!isCompatible){
-                maxFishTypes = findMaxFishTypes(budget, index + 1, selectedFishTypes);
+                maxFishTypes = findMaxFishTypes(budget, index + 1, newFishTypes);
             } 
             //aktueller Fisch ist kompatibel und passt ins Budget
             else{
                 
                 List<Fish> maxFishTypesWithoutCurrentFish;
-                maxFishTypesWithoutCurrentFish = findMaxFishTypes(budget, index + 1, selectedFishTypes);
+                maxFishTypesWithoutCurrentFish = findMaxFishTypes(budget, index + 1, newFishTypes);
                 
-                List<Fish> newFishTypes = new ArrayList<Fish>(selectedFishTypes);
-                newFishTypes.add(currentFish);
+                List<Fish> newNewFishTypes = new ArrayList<Fish>(selectedFishTypes);
+                newNewFishTypes.add(currentFish);
                 List<Fish> maxFishTypesWithCurrentFish;
                 
-                maxFishTypesWithCurrentFish = findMaxFishTypes(budget - currentFish.getCost(), index + 1, newFishTypes);
+                maxFishTypesWithCurrentFish = findMaxFishTypes(budget - currentFish.getCost(), index + 1, newNewFishTypes);
 
                 if(maxFishTypesWithoutCurrentFish.size() > maxFishTypesWithCurrentFish.size() ){
-                    maxFishTypes = maxFishTypesWithoutCurrentFish;
+                    maxFishTypes = new ArrayList<Fish>(maxFishTypesWithoutCurrentFish);
                 } else{
 
-                    maxFishTypes = maxFishTypesWithCurrentFish;
+                    maxFishTypes = new ArrayList<Fish>(maxFishTypesWithCurrentFish);
                 }
             }
         }
