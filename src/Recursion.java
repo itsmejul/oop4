@@ -11,8 +11,9 @@ public class Recursion {
     }
 
     public List<Fish> findMaxFishTypes(int budget, int index, List<Fish> selectedFishTypes){
-        System.out.println(budget + "-----" + index + "\n");
         printList(selectedFishTypes);
+        System.out.println(budget + "-----" + index + "\n");
+        
         if(budget < 0 || index >= fishTypes.size()){
             
             return new ArrayList<Fish>();
