@@ -21,6 +21,9 @@ public class Recursion {
         Fish currentFish = fishTypes.get(index);
         List<Fish> maxFishTypes;
 
+        
+
+
         if(selectedFishTypes.contains(currentFish)){
             return findMaxFishTypes(budget, index + 1, selectedFishTypes);
         }
@@ -62,6 +65,7 @@ public class Recursion {
                 }
             }
         }
+        printList(maxFishTypes);
         return maxFishTypes;
     }
 
