@@ -25,12 +25,12 @@ public class Recursion {
 
 
         if(newFishTypes.contains(currentFish)){
-            return findMaxFishTypes(budget, index + 1, newFishTypes);
+            return new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
         }
 
         //aktueller Fisch ist zu teuer fuer Restbudget, also wird der naechste Fisch ausprobiert
         if(currentFish.getCost() > budget){
-            maxFishTypes = findMaxFishTypes(budget, index + 1, newFishTypes);
+            maxFishTypes = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
         } 
         //aktueller Fisch passt ins Restbudget
         else {
@@ -43,19 +43,19 @@ public class Recursion {
             }
             //aktueller Fisch ist nicht kompatibel, betrachte naechsten moeglichen Fisch
             if(!isCompatible){
-                maxFishTypes = findMaxFishTypes(budget, index + 1, newFishTypes);
+                maxFishTypes = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
             } 
             //aktueller Fisch ist kompatibel und passt ins Budget
             else{
                 
                 List<Fish> maxFishTypesWithoutCurrentFish;
-                maxFishTypesWithoutCurrentFish = findMaxFishTypes(budget, index + 1, newFishTypes);
+                maxFishTypesWithoutCurrentFish = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
                 
                 List<Fish> newNewFishTypes = new ArrayList<Fish>(selectedFishTypes);
                 newNewFishTypes.add(currentFish);
                 List<Fish> maxFishTypesWithCurrentFish;
                 
-                maxFishTypesWithCurrentFish = findMaxFishTypes(budget - currentFish.getCost(), index + 1, newNewFishTypes);
+                maxFishTypesWithCurrentFish = new ArrayList<Fish>(findMaxFishTypes(budget - currentFish.getCost(), index + 1, newNewFishTypes));
 
                 if(maxFishTypesWithoutCurrentFish.size() > maxFishTypesWithCurrentFish.size() ){
                     maxFishTypes = new ArrayList<Fish>(maxFishTypesWithoutCurrentFish);
