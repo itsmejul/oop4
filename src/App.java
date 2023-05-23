@@ -38,7 +38,7 @@ public class App {
 
         Recursion recursion = new Recursion(fishTypes, budget);
 
-        List<Fish> maxFish = recursion.findMaxFishTypes(budget, 0, new ArrayList<Fish>());
+        List<Fish> maxFish = new ArrayList<Fish>(recursion.findMaxFishTypes(budget, 0, new ArrayList<Fish>()));
         System.out.println("Maximale Anzahl an Fischen: " + maxFish.size());
     }
 }
