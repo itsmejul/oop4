@@ -4,13 +4,13 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
         //liste von den gegebenen fischen erstellen namens fishTypes
-        Fish grueneMigraene = new Fish("gruene migraene", 70, new ArrayList<Fish>());
-        Fish korallenQualle = new Fish("korallenqualle", 50, new ArrayList<Fish>());
-        Fish schuppenschatulle = new Fish("schuppenschatulle", 30, new ArrayList<Fish>());
-        Fish breitmaulmolch = new Fish("breitmaulmolch", 40, new ArrayList<Fish>());
-        Fish prachtpiranha = new Fish("prachtpiranha", 40, new ArrayList<Fish>());
-        Fish zitterling = new Fish("zitterling", 30, new ArrayList<Fish>());
-        Fish grottenspotte = new Fish("grottenspotte", 20, new ArrayList<Fish>());
+        Fish grueneMigraene = new Fish("gruene migraene", 70);
+        Fish korallenQualle = new Fish("korallenqualle", 50);
+        Fish schuppenschatulle = new Fish("schuppenschatulle", 30);
+        Fish breitmaulmolch = new Fish("breitmaulmolch", 40);
+        Fish prachtpiranha = new Fish("prachtpiranha", 40);
+        Fish zitterling = new Fish("zitterling", 30);
+        Fish grottenspotte = new Fish("grottenspotte", 20);
 
         grueneMigraene.addIncompatibleType(breitmaulmolch);
         grueneMigraene.addIncompatibleType(grottenspotte);

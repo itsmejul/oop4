@@ -1,4 +1,5 @@
 package fische;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fish {
@@ -6,10 +7,10 @@ public class Fish {
     private int cost;
     private List<Fish> incompatibleTypes;
     
-    Fish(String name, int cost, List<Fish> incompatibleTypes){
+    Fish(String name, int cost){
         this.name = name;
         this.cost = cost;
-        this.incompatibleTypes = incompatibleTypes;
+        incompatibleTypes = new ArrayList<Fish>();
     }
 
     public String getName(){
