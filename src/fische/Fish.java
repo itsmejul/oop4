@@ -1,3 +1,4 @@
+package fische;
 import java.util.List;
 
 public class Fish {

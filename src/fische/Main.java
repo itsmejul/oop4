@@ -1,6 +1,7 @@
+package fische;
 import java.util.ArrayList;
 import java.util.List;
-public class App {
+public class Main {
     public static void main(String[] args) throws Exception {
         //liste von den gegebenen fischen erstellen namens fishTypes
         Fish grueneMigraene = new Fish("gruene migraene", 70, new ArrayList<Fish>());
