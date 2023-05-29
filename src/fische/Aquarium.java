@@ -1,16 +1,84 @@
 package fische;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
-public class Recursion {
-    private List<Fish> fishTypes;
-    private int budget;
+public class Aquarium {
+	public Map<String, Fish> fishMap;
+    //private List<Fish> fishTypes;
+    //private int budget;
 
-    Recursion(List<Fish> fishTypes, int budget){
+	public Aquarium() {
+		fishMap = new HashMap<>();
+	}
+    /**public Aquarium(List<Fish> fishTypes, int budget){
         this.fishTypes = fishTypes;
         this.budget = budget;
+    }**/
+    
+    public void addFish(String name, int cost, List<String> incompatibleFish) {
+    	Fish fish = new Fish(name, cost, incompatibleFish);
+    	fishMap.put(name, fish);
     }
-
+    
+    public List<String> findCompatibleFish(int budget){
+    	List<String> selectedFish = new ArrayList<>();
+    	findCompatibleFishRecursive(budget, selectedFish);
+    	return selectedFish;
+    }
+    
+    private void findCompatibleFishRecursive(int budget, List<String> selectedFish) {
+    	if (budget <= 0 || selectedFish.size() == fishMap.size()) {
+    		return;
+    	}
+    	int maxFishPrice = 0;
+    	String  maxFishName = "";
+    	
+    	for(Map.Entry<String, Fish> entry : fishMap.entrySet()) {
+    		String fishName = entry.getKey();
+    		Fish fish = entry.getValue();
+    		
+    		if (!selectedFish.contains(fishName) && fish.getCost() <= budget && fish.getCost() > maxFishPrice) {
+    			boolean isCompatible = true;
+    			for (String selectedFishName : selectedFish) {
+    				Fish selectedFishObj = fishMap.get(selectedFishName);
+    				if (selectedFishObj.isIncompatible(fishName)) {
+    					isCompatible = false;
+    					break;
+    				}
+    			}
+    			if (isCompatible) {
+    				maxFishPrice = fish.getCost();
+    				maxFishName = fishName;
+    			}
+    		}
+    	}
+    	if (!maxFishName.isEmpty()) {
+    		selectedFish.add(maxFishName);
+    		findCompatibleFishRecursive(budget - maxFishPrice, selectedFish);
+    	}
+    }
+    /**public List<Fish> compatibility(int budget, List<Fish> selectedFishTypes){
+    	List<Fish> fishList = new ArrayList<>();
+    	List<Fish> tempList = new ArrayList<>();
+    	
+    	int index = 0;
+    	for(Fish fish : selectedFishTypes) {
+    		if(fish.getCost() <= budget) {
+    			tempList = selectedFishTypes;
+    			tempList.remove(index);
+    			tempList = compatibility(budget-fish.getCost(),tempList);
+    			if(tempList.size() > fishList.size()) {
+    				fishList = tempList;
+    			}
+    		}
+    		index++;
+    	}
+    	return fishList;
+    }
+    **/ 
+	/**
     public List<Fish> findMaxFishTypes(int budget, int index, List<Fish> selectedFishTypes){
         printList(selectedFishTypes);
         System.out.println(budget + "-----" + index + "\n");
@@ -69,14 +137,15 @@ public class Recursion {
         printList(maxFishTypes);
         return maxFishTypes;
     }
+	**/
 
-
-    private void printList(List<Fish> fishList){
-        System.out.println("-------------------------------------------------\n");
+    /**
+	private void printList(List<Fish> fishList){
+        //System.out.println("-------------------------------------------------\n");
         for(Fish f : fishList){
             System.out.println(f.getName());
             
         }
     }
-
+	**/
 }
