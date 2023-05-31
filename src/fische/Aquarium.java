@@ -6,146 +6,72 @@ import java.util.HashMap;
 
 public class Aquarium {
 	public Map<String, Fish> fishMap;
-    //private List<Fish> fishTypes;
-    //private int budget;
-
+	
 	public Aquarium() {
 		fishMap = new HashMap<>();
 	}
-    /**public Aquarium(List<Fish> fishTypes, int budget){
-        this.fishTypes = fishTypes;
-        this.budget = budget;
-    }**/
-    
+	
     public void addFish(String name, int cost, List<String> incompatibleFish) {
     	Fish fish = new Fish(name, cost, incompatibleFish);
     	fishMap.put(name, fish);
     }
     
-    public List<String> findCompatibleFish(int budget){
-    	List<String> selectedFish = new ArrayList<>();
-    	findCompatibleFishRecursive(budget, selectedFish);
-    	return selectedFish;
+    public List<Fish> findCompatibleFish(int budget){
+    	List<Fish> fishList = new ArrayList<>(); //empty fishList
+    	fishList = findCompatibleFishRecursive(budget, fishList);
+    	return fishList;
     }
     
-    private void findCompatibleFishRecursive(int budget, List<String> selectedFish) {
-    	if (budget <= 0 || selectedFish.size() == fishMap.size()) {
-    		return;
-    	}
-    	int maxFishPrice = 0;
-    	String  maxFishName = "";
-    	
+    public int cheapestFish() {
+    	int min = 1000000000;
     	for(Map.Entry<String, Fish> entry : fishMap.entrySet()) {
-    		String fishName = entry.getKey();
-    		Fish fish = entry.getValue();
-    		
-    		if (!selectedFish.contains(fishName) && fish.getCost() <= budget && fish.getCost() > maxFishPrice) {
+    		Fish selectedFish = entry.getValue();
+    		if(min > selectedFish.getCost()) {
+    			min = selectedFish.getCost();
+    		}
+    	}
+    	return min;
+    }
+    
+    private List<Fish> findCompatibleFishRecursive(int budget, List<Fish> fishList) {
+    	Map<List<Fish>, Integer> diversity = new HashMap<>(); //speichert alle Möglichkeiten
+    	if (budget <= cheapestFish() || fishList.size() == fishMap.size()) {
+    		if(fishList.isEmpty()) {
+    			System.out.println("Ihr Budget ist geringer als der billigste Fisch!");
+    		}
+    		return fishList;
+    	}
+    	for(Map.Entry<String, Fish> entry : fishMap.entrySet()) {
+    		Fish selectedFish = entry.getValue();
+    		if (!fishList.contains(selectedFish) && selectedFish.getCost() <= budget) {
     			boolean isCompatible = true;
-    			for (String selectedFishName : selectedFish) {
-    				Fish selectedFishObj = fishMap.get(selectedFishName);
-    				if (selectedFishObj.isIncompatible(fishName)) {
+    			for (Fish tempFish : fishList) {
+    				if (tempFish.isIncompatible(selectedFish.getName()) || tempFish.equals(selectedFish)) {
     					isCompatible = false;
     					break;
     				}
     			}
-    			if (isCompatible) {
-    				maxFishPrice = fish.getCost();
-    				maxFishName = fishName;
+    			
+    			if(isCompatible) {
+	    			int cost = budget - selectedFish.getCost();
+					//System.out.println(cost);
+					if (cost >= 0) {
+						List<Fish> tempList = new ArrayList<>(fishList);
+						tempList.add(selectedFish);
+						tempList = findCompatibleFishRecursive(cost, tempList);
+						diversity.put(tempList, tempList.size());	
+	    			}
     			}
     		}
     	}
-    	if (!maxFishName.isEmpty()) {
-    		selectedFish.add(maxFishName);
-    		findCompatibleFishRecursive(budget - maxFishPrice, selectedFish);
-    	}
-    }
-    /**public List<Fish> compatibility(int budget, List<Fish> selectedFishTypes){
-    	List<Fish> fishList = new ArrayList<>();
-    	List<Fish> tempList = new ArrayList<>();
-    	
-    	int index = 0;
-    	for(Fish fish : selectedFishTypes) {
-    		if(fish.getCost() <= budget) {
-    			tempList = selectedFishTypes;
-    			tempList.remove(index);
-    			tempList = compatibility(budget-fish.getCost(),tempList);
-    			if(tempList.size() > fishList.size()) {
-    				fishList = tempList;
-    			}
+    	List<Fish> optimum = new ArrayList<>(fishList);
+    	int maxSpecies = 0;
+    	for (Map.Entry<List<Fish>,Integer> div : diversity.entrySet()) {
+    		if(div.getValue() > maxSpecies) {
+    			maxSpecies = div.getValue();
+    			optimum = div.getKey();
     		}
-    		index++;
     	}
-    	return fishList;
+    	return optimum;
     }
-    **/ 
-	/**
-    public List<Fish> findMaxFishTypes(int budget, int index, List<Fish> selectedFishTypes){
-        printList(selectedFishTypes);
-        System.out.println(budget + "-----" + index + "\n");
-        
-        if(budget < 0 || index >= fishTypes.size()){
-            
-            return new ArrayList<Fish>();
-        }
-        Fish currentFish = fishTypes.get(index);
-        List<Fish> maxFishTypes;
-
-        List<Fish> newFishTypes = new ArrayList<>(selectedFishTypes);
-
-
-        if(newFishTypes.contains(currentFish)){
-            return new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
-        }
-
-        //aktueller Fisch ist zu teuer fuer Restbudget, also wird der naechste Fisch ausprobiert
-        if(currentFish.getCost() > budget){
-            maxFishTypes = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
-        } 
-        //aktueller Fisch passt ins Restbudget
-        else {
-            //schauen, ob aktueller Fisch mit bisherigen Fischen kompatibel ist
-            boolean isCompatible = true;
-            for(Fish incompatibleFish : currentFish.getIncompatibleTypes()){
-                if(newFishTypes.contains(incompatibleFish)){
-                    isCompatible = false;
-                } 
-            }
-            //aktueller Fisch ist nicht kompatibel, betrachte naechsten moeglichen Fisch
-            if(!isCompatible){
-                maxFishTypes = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
-            } 
-            //aktueller Fisch ist kompatibel und passt ins Budget
-            else{
-                
-                List<Fish> maxFishTypesWithoutCurrentFish;
-                maxFishTypesWithoutCurrentFish = new ArrayList<Fish>(findMaxFishTypes(budget, index + 1, newFishTypes));
-                
-                List<Fish> newNewFishTypes = new ArrayList<Fish>(selectedFishTypes);
-                newNewFishTypes.add(currentFish);
-                List<Fish> maxFishTypesWithCurrentFish;
-                
-                maxFishTypesWithCurrentFish = new ArrayList<Fish>(findMaxFishTypes(budget - currentFish.getCost(), index + 1, newNewFishTypes));
-
-                if(maxFishTypesWithoutCurrentFish.size() > maxFishTypesWithCurrentFish.size() ){
-                    maxFishTypes = new ArrayList<Fish>(maxFishTypesWithoutCurrentFish);
-                } else{
-
-                    maxFishTypes = new ArrayList<Fish>(maxFishTypesWithCurrentFish);
-                }
-            }
-        }
-        printList(maxFishTypes);
-        return maxFishTypes;
-    }
-	**/
-
-    /**
-	private void printList(List<Fish> fishList){
-        //System.out.println("-------------------------------------------------\n");
-        for(Fish f : fishList){
-            System.out.println(f.getName());
-            
-        }
-    }
-	**/
 }

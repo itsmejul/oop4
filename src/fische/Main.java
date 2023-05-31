@@ -77,12 +77,12 @@ public class Main {
     	aquarium.fishMap.get("grottenspotte").addIncompatibleType("zitterling");
     	
     	int budget = UserInterface.in.requestInt("Geben Sie das Budget ein: ", 0);
-    	List<String> selectedFish = aquarium.findCompatibleFish(budget);
+    	List<Fish> selectedFish = aquarium.findCompatibleFish(budget);
     	
     	System.out.println("Ausgewählte Fische für das Aquarium (Budget: " + budget + "):");
-    	for (String fishName : selectedFish) {
-    		int fishCost = aquarium.fishMap.get(fishName).getCost();
-    		System.out.println(fishName + " : " + fishCost);
+    	for (Fish fish : selectedFish) {
+    		int fishCost = fish.getCost();
+    		System.out.println(fish.getName() + " : " + fishCost);
     	}
     }
 
