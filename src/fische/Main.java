@@ -1,59 +1,22 @@
 package fische;
 import java.util.ArrayList;
 import java.util.List;
-
 import de.oop2023.util.UserInterface;
+/**
+ * Main-Klasse instanziiert ein Aquarium mit dem Sortiment an Fischen,
+ * fragt mittels des UserInterfaces das Budget vom Benutzer ab
+ * und ruft dann die Methoden zur Bestimmung der artenreichsten Fischliste auf.
+ * @author Simon Hoffmann und Julian Mosig von Aehrenfeld
+ * @version 69.69
+ */
 public class Main {
+	/**
+	 * Mainmethode
+	 * @param args
+	 * @throws Exception
+	 */
     public static void main(String[] args) throws Exception {
-        //liste von den gegebenen fischen erstellen namens fishTypes
-    	
-    	/**
-        Fish grueneMigraene = new Fish("gruene migraene", 70, new ArrayList<String>());
-        Fish korallenQualle = new Fish("korallenqualle", 50, new ArrayList<String>());
-        Fish schuppenschatulle = new Fish("schuppenschatulle", 30, new ArrayList<String>());
-        Fish breitmaulmolch = new Fish("breitmaulmolch", 40, new ArrayList<String>());
-        Fish prachtpiranha = new Fish("prachtpiranha", 40, new ArrayList<String>());
-        Fish zitterling = new Fish("zitterling", 30, new ArrayList<String>());
-        Fish grottenspotte = new Fish("grottenspotte", 20, new ArrayList<String>());
-
-        grueneMigraene.addIncompatibleType("breitmaulmolch");
-        grueneMigraene.addIncompatibleType("grottenspotte");
-        schuppenschatulle.addIncompatibleType("breitmaulmolch");
-        schuppenschatulle.addIncompatibleType("prachtpiranha");
-        breitmaulmolch.addIncompatibleType("grueneMigraene");
-        breitmaulmolch.addIncompatibleType("schuppenschatulle");
-        prachtpiranha.addIncompatibleType("schuppenschatulle");
-        prachtpiranha.addIncompatibleType("grottenspotte");
-        zitterling.addIncompatibleType("grottenspotte");
-        grottenspotte.addIncompatibleType("grueneMigraene");
-        grottenspotte.addIncompatibleType("prachtpiranha");
-        grottenspotte.addIncompatibleType("zitterling");
-
-
-        List<Fish> fishTypes = new ArrayList<Fish>();
-        fishTypes.add(grueneMigraene);
-        fishTypes.add(grottenspotte);
-        fishTypes.add(korallenQualle);
-        fishTypes.add(schuppenschatulle);
-        fishTypes.add(breitmaulmolch);
-        fishTypes.add(prachtpiranha);
-        fishTypes.add(zitterling);
-        
-        int budget = 170;
-
-        //Aquarium recursion = new Aquarium(fishTypes, budget);
-        //List<Fish> shopFish = recursion.compatibility(budget, fishTypes);
-        List<Fish> maxFish = recursion.findMaxFishTypes(budget, 0, new ArrayList<Fish>());        
-        System.out.println("-------------------------------------------------\n");
-        for(Fish f : maxFish){
-        //for(Fish f : shopFish){
-            System.out.println(f.getName());
-            
-        }
-        System.out.println("Maximale Anzahl an Fischen: " + recursion.findMaxFishTypes(budget, 0, new ArrayList<Fish>()).size());
-    	**/
     	Aquarium aquarium = new Aquarium();
-    	//Hinzufuegen von Fischen
     	aquarium.addFish("grueneMigraene", 70, new ArrayList<String>());
     	aquarium.addFish("korallenqualle", 50, new ArrayList<String>());
     	aquarium.addFish("schuppenschatulle", 30, new ArrayList<String>());
@@ -62,7 +25,6 @@ public class Main {
     	aquarium.addFish("zitterling", 30, new ArrayList<String>());
     	aquarium.addFish("grottenspotte", 20, new ArrayList<String>());
     	
-    	//Hinzufuegen Unvertraeglichkeiten
     	aquarium.fishMap.get("grueneMigraene").addIncompatibleType("breitmaulmolch");
     	aquarium.fishMap.get("grueneMigraene").addIncompatibleType("grottenspotte");
     	aquarium.fishMap.get("schuppenschatulle").addIncompatibleType("breitmaulmolch");
@@ -85,6 +47,4 @@ public class Main {
     		System.out.println(fish.getName() + " : " + fishCost);
     	}
     }
-
-
 }
