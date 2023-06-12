@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"fische","l":"Aquarium"},{"p":"fische","l":"Fish"},{"p":"fische","l":"Main"},{"p":"de.oop2023.util","l":"UserInterface"},{"p":"de.oop2023.util","l":"UserInterface.UserInterfaceException"}];updateSearchResults();

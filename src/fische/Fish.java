@@ -49,10 +49,10 @@ public class Fish {
     }
     /**
      * Methode prueft den Parameter auf Inkompatiblitaet
-     * @param fish Name des Fisches
+     * @param fishName Name des Fisches
      * @return Wahrheitswert
      */
-    public boolean isIncompatible(String fish) {
-    	return incompatibleTypes.contains(fish);
+    public boolean isIncompatible(String fishName) {
+    	return incompatibleTypes.contains(fishName);
     }
 }
